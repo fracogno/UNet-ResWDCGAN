@@ -105,7 +105,10 @@ def discriminator(X, isTraining):
 			output = residualBlockDiscriminator(output, numFilters, isTraining)
 			print(output)
 
-		output = (tf.layers.dense(tf.layers.flatten(output), 128))
+		output = tf.layers.dense(tf.layers.flatten(output), 128)
+		print(output)
+
+		output = tf.nn.leaky_relu(output)
 		print(output)
 
 		output = tf.layers.dense(output, 1)
