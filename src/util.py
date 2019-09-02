@@ -4,6 +4,10 @@ import cv2
 import pandas as pd
 
 
+def sample_noise(size, mu=0., sigma=1.):
+    return np.random.normal(mu, sigma, size=size)
+
+
 def getData(path, size, value="mel"):
 	DF = pd.read_pickle(path)
 	assert(len(DF["image"]) == len(DF["id"]))

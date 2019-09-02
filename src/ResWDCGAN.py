@@ -2,10 +2,6 @@ import tensorflow as tf
 import numpy as np
 
 
-def sample_noise(size, mu=0., sigma=1.):
-    return np.random.normal(mu, sigma, size=size)
-
-
 def upsample(inputs):
   _, nh, nw, _ = inputs.get_shape().as_list()
   return tf.image.resize_nearest_neighbor(inputs, [nh * 2, nw * 2])
