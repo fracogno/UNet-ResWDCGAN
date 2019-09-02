@@ -2,7 +2,7 @@ import tensorflow as tf
 import src.util as util, src.ResWDCGAN as ResWDCGAN, src.losses as losses
 
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
-basePath = "/home/francesco/UQ/UNet-ResWDCGAN/"
+basePath = "/scratch/cai/UNet-ResWDCGAN/"
 
 '''import pickle
 with open(basePath + "dataset/TMP.pkl", 'rb') as handle:
