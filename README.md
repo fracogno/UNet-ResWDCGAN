@@ -1,4 +1,4 @@
-# ArtisticGAN
+# UNet-ResWDCGAN
 Stacking a U-Net GAN (256x256) on top of a WResDCGAN (128x128) to generate higher resolution images
 
 ### 128x128 W-ResDCGAN
