@@ -42,15 +42,15 @@ def Autoencoder_Optimizer(C_loss, AE_loss, lr, beta1):
         C_optimizer = tf.train.AdamOptimizer(lr, beta1).minimize(C_loss, var_list=tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope='critic'))    
 
     # Optimize both small generator and UNET
-    AE_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS, scope='autoencoder')
-    with tf.control_dependencies(AE_update_ops):
-    	AE_optimizer = tf.train.AdamOptimizer(lr, beta1).minimize(AE_loss, var_list=tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope='autoencoder'))
-    
     '''AE_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS, scope='autoencoder')
+    with tf.control_dependencies(AE_update_ops):
+    	AE_optimizer = tf.train.AdamOptimizer(lr, beta1).minimize(AE_loss, var_list=tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope='autoencoder'))'''
+    
+    AE_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS, scope='autoencoder')
     with tf.control_dependencies(AE_update_ops):
         G_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS, scope='generator')
         with tf.control_dependencies(G_update_ops):
             train_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope='autoencoder') + tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope='generator')
-            AE_optimizer = tf.train.AdamOptimizer(lr, beta1).minimize(AE_loss, var_list=train_vars)'''
+            AE_optimizer = tf.train.AdamOptimizer(lr, beta1).minimize(AE_loss, var_list=train_vars)
             
     return C_optimizer, AE_optimizer

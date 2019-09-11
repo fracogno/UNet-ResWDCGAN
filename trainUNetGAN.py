@@ -5,15 +5,15 @@ tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 basePath = "/scratch/cai/UNet-ResWDCGAN/"
 #basePath = "/home/francesco/UQ/UNet-ResWDCGAN/"
 
-import pickle
+'''import pickle
 with open(basePath + "dataset/TMP.pkl", 'rb') as handle:
-	X = pickle.load(handle)
+	X = pickle.load(handle)'''
 
 # Get data in different sizes
 imgSize = 256
-#X = util.getData(basePath + "dataset/SemArt/", ["semart_train.csv", "semart_val.csv", "semart_test.csv"], imgSize)
+X = util.getData(basePath + "dataset/NvAndMelNoDuplicatesFullSize.zip", imgSize, value="nv")
 print(X.shape)
-#assert(X.max() == 1. and X.min() == -1.)
+assert(X.max() == 1. and X.min() == -1.)
 
 # Parameters
 epochsAE = 5000
@@ -62,7 +62,7 @@ with tf.Session(config=tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=Tru
 
 	# Load pretrained generator 64x64
 	saverG = tf.train.Saver(var_list=tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='generator'))
-	saverG.restore(sess, basePath + "checkpoints/ckpt-G-78750")
+	saverG.restore(sess, basePath + "checkpoints/ckpt-ResWDCGAN-155000")
 
 	AE_summary_writer = tf.summary.FileWriter(summaries_dir,  graph=tf.get_default_graph())
 
