@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 
 
-def generator(Z, isTraining):
+def generator(Z, isTraining, kernelSize=5):
     
 	with tf.variable_scope('generator', reuse=tf.AUTO_REUSE):
 		print(Z)
@@ -12,35 +12,46 @@ def generator(Z, isTraining):
 		x = tf.nn.leaky_relu(tf.layers.batch_normalization(x, training=isTraining))
 		print(x)
 
-		filters = [512, 256, 128, 64]
-		for numFilters in filters:
-			x = tf.layers.conv2d_transpose(x, numFilters, 3, 2, padding='SAME')
-			x = tf.nn.leaky_relu(tf.layers.batch_normalization(x, training=isTraining))
-			print(x)
+		x = tf.nn.relu(tf.layers.batch_normalization(tf.layers.conv2d_transpose(x, 512, kernelSize, 1, padding='SAME', use_bias=False), training=isTraining))
+		print(x)
 
-		output = tf.tanh(tf.layers.conv2d_transpose(x, 3, 3, 1, padding='SAME'))
-		print(output)
+		x = tf.nn.relu(tf.layers.batch_normalization(tf.layers.conv2d_transpose(x, 512, kernelSize, 2, padding='SAME', use_bias=False), training=isTraining))
+		print(x)
+
+		x = tf.nn.relu(tf.layers.batch_normalization(tf.layers.conv2d_transpose(x, 256, kernelSize, 2, padding='SAME', use_bias=False), training=isTraining))
+		print(x)
+
+		x = tf.nn.relu(tf.layers.batch_normalization(tf.layers.conv2d_transpose(x, 128, kernelSize, 2, padding='SAME', use_bias=False), training=isTraining))
+		print(x)
+
+		x = tf.nn.relu(tf.layers.batch_normalization(tf.layers.conv2d_transpose(x, 64, kernelSize, 2, padding='SAME', use_bias=False), training=isTraining))
+		print(x)
+
+		x = tf.tanh(tf.layers.conv2d_transpose(x, 3, kernelSize, 1, padding='SAME'))
+		print(x)
 		print("\n\n")
 
-		return output
+		return x
 
 
-def discriminator(x, isTraining):
+def discriminator(x, isTraining, kernelSize=5):
     
 	with tf.variable_scope('discriminator', reuse=tf.AUTO_REUSE):
 		print(x)
-	
-		filters = [64, 128, 256, 512]
-		for numFilters in filters:
-			x = tf.layers.conv2d(x, numFilters, 3, 2, padding='SAME')
 
-			if numFilters != filters[0]:
-				x = tf.nn.leaky_relu(tf.layers.batch_normalization(x, training=isTraining))
-			else:
-				x = tf.nn.leaky_relu(x)
-			print(x)
+		x = tf.nn.leaky_relu(tf.layers.conv2d(x, 64, kernelSize, 2, padding='SAME'))
+		print(x)
 
-		x = tf.nn.leaky_relu(tf.layers.dense(tf.layers.flatten(x), 128))
+		x = tf.nn.leaky_relu(tf.layers.conv2d(x, 128, kernelSize, 2, padding='SAME'))
+		print(x)
+
+		x = tf.nn.leaky_relu(tf.layers.conv2d(x, 256, kernelSize, 2, padding='SAME'))
+		print(x)
+
+		x = tf.nn.leaky_relu(tf.layers.conv2d(x, 512, kernelSize, 2, padding='SAME'))
+		print(x)
+
+		x = tf.layers.flatten(x)
 		print(x)
 
 		x = tf.layers.dense(x, 1)
