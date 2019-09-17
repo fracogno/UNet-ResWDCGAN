@@ -1,15 +1,16 @@
 import tensorflow as tf
-import src.util as util, src.ResWDCGAN as ResWDCGAN, src.losses as losses
+import src.util as util, src.network as ResWDCGAN, src.losses as losses
 
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 basePath = "/scratch/cai/UNet-ResWDCGAN/"
+#basePath = "/home/francesco/UQ/UNet-ResWDCGAN/"
 
 '''import pickle
 with open(basePath + "dataset/TMP.pkl", 'rb') as handle:
 	X = pickle.load(handle)'''
 
 # Get data
-imgSize = 128
+imgSize = 64
 X = util.getData(basePath + "dataset/NvAndMelNoDuplicatesFullSize.zip", imgSize, value="nv")
 assert(X.max() == 1. and X.min() == -1.)
 print(X.shape)
@@ -83,7 +84,7 @@ with tf.Session(config=tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=Tru
 			# Save checkpoint and generated images at this step
 			if GStep % 1000 == 0:
 				saver.save(sess, basePath + "checkpoints/ckpt-ResWDCGAN-" + str(GStep))
-				output = sess.run(G_z, feed_dict={ isTraining : False, Z: util.sample_noise([4, Z_dim]) })
+				output = sess.run(G_z, feed_dict={ isTraining : False, Z: util.sample_noise([10, Z_dim]) })
 				util.saveImages(basePath + "images/out-ResWDCGAN-" + str(GStep), output)
 			GStep += 1
 	except tf.errors.OutOfRangeError:
