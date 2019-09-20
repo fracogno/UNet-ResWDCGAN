@@ -1,5 +1,5 @@
 import tensorflow as tf
-import src.util as util, src.network as ResWDCGAN, src.losses as losses
+import src.util as util, src.DCGAN as ResWDCGAN, src.losses as losses
 
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 basePath = "/scratch/cai/UNet-ResWDCGAN/"
