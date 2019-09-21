@@ -1,5 +1,5 @@
 import tensorflow as tf
-import src.util as util, src.ResWDCGAN as ResWDCGAN, src.UNetGAN as UNetGAN, src.losses as loss
+import src.util as util, src.DCGAN as ResWDCGAN, src.UNetGAN as UNetGAN, src.losses as loss
 
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 basePath = "/scratch/cai/UNet-ResWDCGAN/"
@@ -54,7 +54,7 @@ C_optimizer, AE_optimizer = loss.Autoencoder_Optimizer(C_loss, AE_loss, lr, 0.5)
 summaries_dir = basePath + "checkpoints"
 AE_summaries = [tf.summary.scalar('C_loss', C_loss), tf.summary.scalar('AE_L1', AE_L1), tf.summary.scalar('AE_gan', AE_gan)]
 AE_merged_summary = tf.summary.merge(AE_summaries)
-
+exit()
 # Training
 with tf.Session(config=tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))) as sess:
 	saver = tf.train.Saver(max_to_keep=3000)
@@ -62,7 +62,7 @@ with tf.Session(config=tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=Tru
 
 	# Load pretrained generator 64x64
 	saverG = tf.train.Saver(var_list=tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='generator'))
-	saverG.restore(sess, basePath + "checkpoints/ckpt-ResWDCGAN-155000")
+	saverG.restore(sess, basePath + "checkpoints/ckpt-ResWDCGAN-45000")
 
 	AE_summary_writer = tf.summary.FileWriter(summaries_dir,  graph=tf.get_default_graph())
 

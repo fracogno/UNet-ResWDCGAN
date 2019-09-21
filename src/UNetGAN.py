@@ -26,7 +26,7 @@ def upsample(inputs, filters, size, isTraining, apply_dropout=False):
     
     
 def getAutoencoder(X, isTraining):
-    filters = [32, 64, 128, 256, 512, 512, 512]
+    filters = [32, 64, 128, 256, 512, 512]
     
     with tf.variable_scope('autoencoder', reuse=tf.AUTO_REUSE):
         output = X
@@ -47,7 +47,8 @@ def getAutoencoder(X, isTraining):
         
         # Additional layers (output is bigger than input in this autoencoder)
         output = upsample(output, 64, 5, isTraining, apply_dropout=False)
-        output = tf.concat([X, output], axis=3)
+        print(output)
+        output = upsample(output, 32, 5, isTraining, apply_dropout=False)
         print(output)
             
         # Last layer => Only 3 channels and TANH
@@ -56,7 +57,7 @@ def getAutoencoder(X, isTraining):
         print(last)    
         print()
 
-        down1 = tf.image.resize_images(last, (128, 128))
+        down1 = tf.image.resize_images(last, (64, 64))
         print(down1)
 
         print()
