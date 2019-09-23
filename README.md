@@ -1,8 +1,8 @@
-# UNet-ResWDCGAN
-Stacking a U-Net GAN (256x256) on top of a WResDCGAN (128x128) to generate higher resolution images
+# UNet-WDCGAN
+Stacking a U-Net GAN (256x256) on top of a WDCGAN (64x64) to generate higher resolution images
 
-### 128x128 W-ResDCGAN
-Implementation of an improved (gradient penalty on discriminator loss) Wasserstein Resnet Deep Convolutional Generative Adversarial Network for the generation of 64x64 RGB images.
+### 64x64 W-DCGAN
+Implementation of an improved (gradient penalty on discriminator loss) Wasserstein Deep Convolutional Generative Adversarial Network for the generation of 64x64 RGB images.
 
 ![DCGAN](https://gluon.mxnet.io/_images/dcgan.png)
 
