@@ -16,7 +16,7 @@ assert(X.max() == 1. and X.min() == -1.)
 print(X.shape)
 
 # Parameters
-epochs = 10000
+epochs = 30000
 batchSize = 64
 lr = 1e-4
 lam = 10.0
