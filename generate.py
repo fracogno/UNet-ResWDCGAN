@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-import src.ResWDCGAN as network, src.UNetGAN as UNET_GAN, src.util as util
+import src.DCGAN as network, src.UNetGAN as UNET_GAN, src.util as util
 import matplotlib.pyplot as plt
 
 
@@ -16,10 +16,11 @@ G_AE, _ = UNET_GAN.getAutoencoder(G_z, isTraining)
 with tf.Session() as sess:
     saver = tf.train.Saver()
     sess.run(tf.global_variables_initializer())
-    saver.restore(sess, basePath + "checkpoints/ckpt-AE-111750")
+    saver.restore(sess, basePath + "nv-checkpoints/ckpt-AE-79500")
+    #saver.restore(sess, basePath + "mel-checkpoints/ckpt-AE-7500")
 
     images, fullImg = [], []
-    for j in range(10):
+    for j in range(30):
         UNET_output, G_output = sess.run([G_AE, G_z], feed_dict={ isTraining : False, Z : util.sample_noise([1, Z_dim]) })
         images.append(G_output[0])
         fullImg.append(UNET_output[0])
