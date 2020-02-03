@@ -62,7 +62,7 @@ with tf.Session(config=tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=Tru
 
 	# Load pretrained generator 64x64
 	saverG = tf.train.Saver(var_list=tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='generator'))
-	saverG.restore(sess, basePath + "checkpoints/ckpt-ResWDCGAN-38000")
+	saverG.restore(sess, basePath + "checkpoints/ckpt-ResWDCGAN-183000")
 
 	AE_summary_writer = tf.summary.FileWriter(summaries_dir,  graph=tf.get_default_graph())
 
