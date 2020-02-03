@@ -16,17 +16,20 @@ G_AE, _ = UNET_GAN.getAutoencoder(G_z, isTraining)
 with tf.Session() as sess:
     saver = tf.train.Saver()
     sess.run(tf.global_variables_initializer())
-    saver.restore(sess, basePath + "nv-checkpoints/ckpt-AE-79500")
-    #saver.restore(sess, basePath + "mel-checkpoints/ckpt-AE-7500")
+
+    saver.restore(sess, basePath + "checkpoints/ckpt-AE-101250")
+    #saver.restore(sess, basePath + "checkpoints-mel/ckpt-AE-88500")
 
     images, fullImg = [], []
-    for j in range(30):
+    for j in range(50):
         UNET_output, G_output = sess.run([G_AE, G_z], feed_dict={ isTraining : False, Z : util.sample_noise([1, Z_dim]) })
         images.append(G_output[0])
         fullImg.append(UNET_output[0])
+
     images = np.array(images)
     fullImg = np.array(fullImg)
     print(images.shape)
     print(fullImg.shape)
-    util.saveImages(basePath + "images/TEST-" + str(0), images)
-    util.saveImages(basePath + "images/TEST-AE-" + str(0), fullImg)
+
+    util.saveImages(basePath + "generated/TEST-" + str(0), images)
+    util.saveImages(basePath + "generated/TEST-AE-" + str(0), fullImg)
